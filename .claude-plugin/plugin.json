@@ -3,8 +3,9 @@
   "name": "claude-sdd-team",
   "description": "SDD multi-agent team: orchestrator + 6 specialists, opt-in via /sdd.",
   "version": "0.1.0",
-  "author": { "name": "Martin" },
+  "author": { "name": "Martín M." },
   "homepage": "https://github.com/skydiver/claude-sdd-team",
   "repository": "https://github.com/skydiver/claude-sdd-team",
+  "license": "MIT",
   "keywords": ["sdd", "multi-agent", "orchestrator", "subagents", "tdd"]
 }

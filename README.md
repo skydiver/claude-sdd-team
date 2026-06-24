@@ -140,9 +140,21 @@ Switch via the command: `/sdd-security-mode unguarded` or `/sdd-security-mode gu
 
 ---
 
+## Requirements
+
+- **`python3`** must be available in the shell PATH. The `bash-guard` hook uses it to parse JSON from the PreToolUse event. If `python3` is not available, swap the parsing line in `hooks/bash-guard.sh` to use `jq` instead.
+
+---
+
+## Credits
+
+Adapted for Claude Code from [ram4-dev/multi-sdd-team](https://github.com/ram4-dev/multi-sdd-team), an SDD multi-agent framework originally built for the `pi` coding agent. The role design, orchestration strategies, and guardrail concepts originate there; this project ports them to Claude Code's plugin primitives (agents, slash commands, and hooks). The [Fidelity notes](#fidelity-notes) below describe where this port's runtime guarantees differ from that original.
+
+---
+
 ## Fidelity notes
 
-These are known gaps between design intent and what the plugin can enforce at runtime:
+These are known gaps between the [original design intent](#credits) and what this plugin can enforce at runtime:
 
 1. **bash-guard enforces the guarded-mode block, not the hacker-role-only gate.** The PreToolUse hook intercepts every Bash call regardless of which subagent issued it. It blocks high-risk commands in guarded mode for all agents — including the `hacker`. But the hook cannot identify which subagent is dispatching a call, so it cannot enforce "only `hacker` may run destructive commands in unguarded mode." In unguarded mode, any agent can run high-risk Bash. Guard this with process discipline rather than tooling.
 
@@ -154,6 +166,6 @@ These are known gaps between design intent and what the plugin can enforce at ru
 
 ---
 
-## Requirements
+## License
 
-- **`python3`** must be available in the shell PATH. The `bash-guard` hook uses it to parse JSON from the PreToolUse event. If `python3` is not available, swap the parsing line in `hooks/bash-guard.sh` to use `jq` instead.
+Released under the [MIT License](LICENSE).

@@ -1,7 +1,7 @@
 {
   "name": "skydiver",
   "description": "skydiver's marketplace — the claude-sdd-team SDD multi-agent plugin.",
-  "owner": { "name": "Martin" },
+  "owner": { "name": "Martín M." },
   "plugins": [
     {
       "name": "claude-sdd-team",
