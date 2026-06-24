@@ -28,12 +28,12 @@ claude plugin install claude-sdd-team@skydiver
 
 ### Commands
 
-| Command              | Arguments         | Purpose                                                                              |
-| -------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| `/sdd`               | `<task>`          | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
-| `/sdd-subagents`     | —                 | List all available specialist agents with their roles and tools.                     |
-| `/sdd-status`        | —                 | Show current security mode and which agents are enabled.                             |
-| `/sdd-security-mode` | `passive\|active` | Switch between passive (default, blocks high-risk Bash) and active mode.             |
+| Command              | Arguments            | Purpose                                                                              |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------------ |
+| `/sdd`               | `<task>`             | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
+| `/sdd-subagents`     | —                    | List all available specialist agents with their roles and tools.                     |
+| `/sdd-status`        | —                    | Show current security mode and which agents are enabled.                             |
+| `/sdd-security-mode` | `guarded\|unguarded` | Switch between guarded (default, blocks high-risk Bash) and unguarded mode.          |
 
 ---
 
@@ -67,7 +67,7 @@ flowchart TD
     LIGHT --> DONE([Done])
     MI --> DONE
 
-    GUARD["🔒 bash-guard hook<br/>blocks high-risk Bash unless<br/>/sdd-security-mode active"]
+    GUARD["🔒 bash-guard hook<br/>blocks high-risk Bash unless<br/>/sdd-security-mode unguarded"]
     HK -.-> GUARD
     IM -.-> GUARD
 
@@ -110,8 +110,8 @@ Fan-out is allowed within a phase (e.g., three explorers over auth/db/api in par
 ### Other commands
 
 - **`/sdd-subagents`** — prints a catalogue of every specialist with its model, allowed tools, and one-line role description.
-- **`/sdd-status`** — shows the active security mode and lists which agents are currently enabled.
-- **`/sdd-security-mode passive|active`** — switches security mode and writes the new state to `.claude/.security-mode`.
+- **`/sdd-status`** — shows the current security mode and lists which agents are currently enabled.
+- **`/sdd-security-mode guarded|unguarded`** — switches security mode and writes the new state to `.claude/.security-mode`.
 
 ---
 
@@ -122,21 +122,21 @@ Two **independent** controls govern security-sensitive work. Turning one on does
 | Control           | What it decides                                       | Default   | How to change                                                                       |
 | ----------------- | ----------------------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
 | **Hacker agent**  | Whether a security audit runs at all                  | Off       | Ask for a security review, or work on auth / secrets / payments / destructive scope |
-| **Security mode** | Whether high-risk Bash is allowed — for _every_ agent | `passive` | `/sdd-security-mode active`                                                         |
+| **Security mode** | Whether high-risk Bash is allowed — for _every_ agent | `guarded` | `/sdd-security-mode unguarded`                                                      |
 
-They meet in exactly one place: a deep audit that needs destructive commands requires active mode. But active mode lifts the block for **all** agents, not just the hacker (see fidelity note 1). The hacker can still run a complete _passive_ audit without active mode — it simply avoids destructive commands.
+They meet in exactly one place: a deep audit that needs destructive commands requires unguarded mode. But unguarded mode lifts the block for **all** agents, not just the hacker (see fidelity note 1). The hacker can still run a complete _guarded_ audit without unguarded mode — it simply avoids destructive commands.
 
 ### Security mode in detail
 
 Security mode controls whether high-risk Bash commands are allowed.
 
-**Passive (default)** — the `bash-guard` PreToolUse hook intercepts every Bash call and blocks commands matching high-risk patterns: `rm -rf`, `git reset --hard`, `git clean -fd`, `dd if=`, `mkfs`, and fork bombs. The session exits with a non-zero code if any of these patterns are detected while in passive mode.
+**Guarded (default)** — the `bash-guard` PreToolUse hook intercepts every Bash call and blocks commands matching high-risk patterns: `rm -rf`, `git reset --hard`, `git clean -fd`, `dd if=`, `mkfs`, and fork bombs. The session exits with a non-zero code if any of these patterns are detected while in guarded mode.
 
-**Active** — the same hook runs, but the block is lifted. Use active mode intentionally, e.g. when the `hacker` agent needs to exercise destructive test paths.
+**Unguarded** — the same hook runs, but the block is lifted. Use unguarded mode intentionally, e.g. when the `hacker` agent needs to exercise destructive test paths.
 
-State is stored at `${CLAUDE_PROJECT_DIR}/.claude/.security-mode` (plain text: `passive` or `active`). The file is read on every Bash call; switching modes takes effect immediately without restarting the session.
+State is stored at `${CLAUDE_PROJECT_DIR}/.claude/.security-mode` (plain text: `guarded` or `unguarded`). The file is read on every Bash call; switching modes takes effect immediately without restarting the session.
 
-Switch via the command: `/sdd-security-mode active` or `/sdd-security-mode passive`.
+Switch via the command: `/sdd-security-mode unguarded` or `/sdd-security-mode guarded`.
 
 ---
 
@@ -144,7 +144,7 @@ Switch via the command: `/sdd-security-mode active` or `/sdd-security-mode passi
 
 These are known gaps between design intent and what the plugin can enforce at runtime:
 
-1. **bash-guard enforces the passive-mode block, not the hacker-role-only gate.** The PreToolUse hook intercepts every Bash call regardless of which subagent issued it. It blocks high-risk commands in passive mode for all agents — including the `hacker`. But the hook cannot identify which subagent is dispatching a call, so it cannot enforce "only `hacker` may run destructive commands in active mode." In active mode, any agent can run high-risk Bash. Guard this with process discipline rather than tooling.
+1. **bash-guard enforces the guarded-mode block, not the hacker-role-only gate.** The PreToolUse hook intercepts every Bash call regardless of which subagent issued it. It blocks high-risk commands in guarded mode for all agents — including the `hacker`. But the hook cannot identify which subagent is dispatching a call, so it cannot enforce "only `hacker` may run destructive commands in unguarded mode." In unguarded mode, any agent can run high-risk Bash. Guard this with process discipline rather than tooling.
 
 2. **Orchestration is prompt-driven, not programmatic.** `/sdd` is a strong default prompt that guides Claude through the Execution Decision and specialist chain. It is not a hard state machine. The session can deviate if prompted to do so. Treat it as a consistently enforced convention, not an unbreakable rail.
 

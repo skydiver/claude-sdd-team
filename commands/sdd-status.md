@@ -5,7 +5,7 @@ allowed-tools: Bash(cat:*)
 
 Report current multi-team SDD status:
 
-- Security mode: !`cat "${CLAUDE_PROJECT_DIR:-.}/.claude/.security-mode" 2>/dev/null || echo "passive (default)"`
+- Security mode: !`cat "${CLAUDE_PROJECT_DIR:-.}/.claude/.security-mode" 2>/dev/null || echo "guarded (default)"`
 - Specialist agents are provided by the claude-sdd-team plugin (explorer,
   documentator, planner, implementer, tester-reviewer, hacker).
 

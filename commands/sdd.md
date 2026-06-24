@@ -74,9 +74,9 @@ widens a phase; it never reorders phases.
 
 ## Security mode
 
-Read .claude/.security-mode (default: passive). In passive mode, avoid
-destructive security actions unless the user switches to active via
-/sdd-security-mode active. Always explain impact before high-risk actions.
+Read .claude/.security-mode (default: guarded). In guarded mode, avoid
+destructive security actions unless the user switches to unguarded via
+/sdd-security-mode unguarded. Always explain impact before high-risk actions.
 
 ## Quality bar
 

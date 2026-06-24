@@ -10,5 +10,5 @@ for f in "$agents_dir"/*.md; do
   desc="$(grep -m1 '^description:' "$f" | sed 's/^description:[[:space:]]*//')"
   printf '  • %-16s %s\n' "$name" "$desc"
 done
-echo "Security mode: $(cat "$mode_file" 2>/dev/null || echo 'passive (default)')"
+echo "Security mode: $(cat "$mode_file" 2>/dev/null || echo 'guarded (default)')"
 echo "Enter the SDD flow with: /sdd <task>"
