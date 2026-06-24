@@ -162,8 +162,6 @@ These are known gaps between the [original design intent](#credits) and what thi
 
 3. **`documentator`'s docs-only constraint is prompt-only.** The plugin manifest does not support per-agent hooks, so there is no hook that prevents `documentator` from writing files outside `./docs/`. The constraint exists only in the agent's system prompt.
 
-4. **The startup catalogue is plain text.** The catalogue printed by the `SessionStart` hook is plain text — no colored cards or interactive UI.
-
 ---
 
 ## License
