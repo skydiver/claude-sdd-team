@@ -72,12 +72,6 @@ widens a phase; it never reorders phases.
 - tester-reviewer is report-only (no code fixes).
 - hacker performs static + dynamic security audits.
 
-## Security mode
-
-Read .claude/.security-mode (default: guarded). In guarded mode, avoid
-destructive security actions unless the user switches to unguarded via
-/sdd-security-mode unguarded. Always explain impact before high-risk actions.
-
 ## Quality bar
 
 Always provide concrete evidence: files, commands, tests, and outcomes.

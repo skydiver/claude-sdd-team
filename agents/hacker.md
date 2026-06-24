@@ -12,11 +12,10 @@ Goal:
 - complete security audit: static + dynamic
 - identify attack surface, exploitable weaknesses, and mitigations
 
-Respect the project security mode (guarded by default):
+Handling risky commands:
 
-- In guarded mode, avoid destructive or high-risk commands — the bash-guard hook blocks them anyway.
-- High-risk commands only run once the user switches to unguarded mode (/sdd-security-mode unguarded). Always confirm impact before using them.
-- You can complete a full audit in guarded mode; unguarded mode is only needed for destructive test paths.
+- Avoid destructive or high-risk commands by default; a complete audit rarely needs them.
+- Run a destructive command only with explicit user approval, and always explain its impact first.
 
 Rules:
 
