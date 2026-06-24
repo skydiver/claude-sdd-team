@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "claude-sdd-team",
+  "description": "SDD multi-agent team: orchestrator + 6 specialists, opt-in via /sdd.",
+  "version": "0.1.0",
+  "author": { "name": "Martin" },
+  "homepage": "https://github.com/skydiver/claude-sdd-team",
+  "repository": "https://github.com/skydiver/claude-sdd-team",
+  "keywords": ["sdd", "multi-agent", "orchestrator", "subagents", "tdd"]
+}
