@@ -115,7 +115,18 @@ Fan-out is allowed within a phase (e.g., three explorers over auth/db/api in par
 
 ---
 
-## Security mode
+## Security model
+
+Two **independent** controls govern security-sensitive work. Turning one on does **not** turn the other on.
+
+| Control           | What it decides                                       | Default   | How to change                                                                       |
+| ----------------- | ----------------------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
+| **Hacker agent**  | Whether a security audit runs at all                  | Off       | Ask for a security review, or work on auth / secrets / payments / destructive scope |
+| **Security mode** | Whether high-risk Bash is allowed — for _every_ agent | `passive` | `/sdd-security-mode active`                                                         |
+
+They meet in exactly one place: a deep audit that needs destructive commands requires active mode. But active mode lifts the block for **all** agents, not just the hacker (see fidelity note 1). The hacker can still run a complete _passive_ audit without active mode — it simply avoids destructive commands.
+
+### Security mode in detail
 
 Security mode controls whether high-risk Bash commands are allowed.
 

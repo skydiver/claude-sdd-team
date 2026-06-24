@@ -12,10 +12,11 @@ Goal:
 - complete security audit: static + dynamic
 - identify attack surface, exploitable weaknesses, and mitigations
 
-Modes:
+Respect the project security mode (passive by default):
 
-- passive: avoid destructive commands
-- active: may include high-risk actions only when explicitly enabled
+- In passive mode, avoid destructive or high-risk commands — the bash-guard hook blocks them anyway.
+- High-risk commands only run once the user switches to active mode (/sdd-security-mode active). Always confirm impact before using them.
+- You can complete a full audit in passive mode; active mode is only needed for destructive test paths.
 
 Rules:
 
