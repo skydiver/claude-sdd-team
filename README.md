@@ -28,12 +28,12 @@ claude plugin install claude-sdd-team@skydiver
 
 ### Commands
 
-| Command                    | Arguments         | Purpose                                                                              |
-| -------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| `/sdd`                     | `<task>`          | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
-| `/sdd-subagents`           | —                 | List all available specialist agents with their roles and tools.                     |
-| `/sdd-orchestrator-status` | —                 | Show current security mode and which agents are enabled.                             |
-| `/sdd-security-mode`       | `passive\|active` | Switch between passive (default, blocks high-risk Bash) and active mode.             |
+| Command              | Arguments         | Purpose                                                                              |
+| -------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| `/sdd`               | `<task>`          | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
+| `/sdd-subagents`     | —                 | List all available specialist agents with their roles and tools.                     |
+| `/sdd-status`        | —                 | Show current security mode and which agents are enabled.                             |
+| `/sdd-security-mode` | `passive\|active` | Switch between passive (default, blocks high-risk Bash) and active mode.             |
 
 ---
 
@@ -110,7 +110,7 @@ Fan-out is allowed within a phase (e.g., three explorers over auth/db/api in par
 ### Other commands
 
 - **`/sdd-subagents`** — prints a catalogue of every specialist with its model, allowed tools, and one-line role description.
-- **`/sdd-orchestrator-status`** — shows the active security mode and lists which agents are currently enabled.
+- **`/sdd-status`** — shows the active security mode and lists which agents are currently enabled.
 - **`/sdd-security-mode passive|active`** — switches security mode and writes the new state to `.claude/.security-mode`.
 
 ---

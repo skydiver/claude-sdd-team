@@ -1,5 +1,5 @@
 ---
-description: Show orchestrator and security-mode status.
+description: Show SDD team status — security mode and available agents.
 allowed-tools: Bash(cat:*)
 ---
 
