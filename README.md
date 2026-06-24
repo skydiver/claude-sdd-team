@@ -28,12 +28,12 @@ claude plugin install claude-sdd-team@skydiver
 
 ### Commands
 
-| Command                          | Purpose                                                                              |
-| -------------------------------- | ------------------------------------------------------------------------------------ |
-| `/sdd <task>`                    | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
-| `/subagents`                     | List all available specialist agents with their roles and tools.                     |
-| `/orchestrator-status`           | Show current security mode and which agents are enabled.                             |
-| `/security-mode passive\|active` | Switch between passive (default, blocks high-risk Bash) and active mode.             |
+| Command                              | Purpose                                                                              |
+| ------------------------------------ | ------------------------------------------------------------------------------------ |
+| `/sdd <task>`                        | Classify the task, state an Execution Decision, and coordinate the specialist chain. |
+| `/sdd-subagents`                     | List all available specialist agents with their roles and tools.                     |
+| `/sdd-orchestrator-status`           | Show current security mode and which agents are enabled.                             |
+| `/sdd-security-mode passive\|active` | Switch between passive (default, blocks high-risk Bash) and active mode.             |
 
 ---
 
@@ -67,7 +67,7 @@ flowchart TD
     LIGHT --> DONE([Done])
     MI --> DONE
 
-    GUARD["🔒 bash-guard hook<br/>blocks high-risk Bash unless<br/>/security-mode active"]
+    GUARD["🔒 bash-guard hook<br/>blocks high-risk Bash unless<br/>/sdd-security-mode active"]
     HK -.-> GUARD
     IM -.-> GUARD
 
@@ -109,9 +109,9 @@ Fan-out is allowed within a phase (e.g., three explorers over auth/db/api in par
 
 ### Other commands
 
-- **`/subagents`** — prints a catalogue of every specialist with its model, allowed tools, and one-line role description.
-- **`/orchestrator-status`** — shows the active security mode and lists which agents are currently enabled.
-- **`/security-mode passive|active`** — switches security mode and writes the new state to `.claude/.security-mode`.
+- **`/sdd-subagents`** — prints a catalogue of every specialist with its model, allowed tools, and one-line role description.
+- **`/sdd-orchestrator-status`** — shows the active security mode and lists which agents are currently enabled.
+- **`/sdd-security-mode passive|active`** — switches security mode and writes the new state to `.claude/.security-mode`.
 
 ---
 
@@ -125,7 +125,7 @@ Security mode controls whether high-risk Bash commands are allowed.
 
 State is stored at `${CLAUDE_PROJECT_DIR}/.claude/.security-mode` (plain text: `passive` or `active`). The file is read on every Bash call; switching modes takes effect immediately without restarting the session.
 
-Switch via the command: `/security-mode active` or `/security-mode passive`.
+Switch via the command: `/sdd-security-mode active` or `/sdd-security-mode passive`.
 
 ---
 
